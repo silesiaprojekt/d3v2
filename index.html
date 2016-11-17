@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style type="text/css">
@@ -49,9 +50,9 @@
     <div id="tree-container"></div>
 </body>
 </html>
+-->
 
-
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <meta charset="utf-8">
 <style>
 
@@ -92,35 +93,25 @@ text {
 
 // http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
 var links = [
-  {source: "Marek Marecki", target: "Cream", type: "resolved"},
-    {source: "Marek Marecki", target: "Moraj", type: "suit"},
-
-    {source: "Marek Marecki2", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki3", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki4", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki5", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki6", target: "Moraj", type: "suit"},
-
-
-  {source: "Jarek Jarecki", target: "Cream", type: "suit"},
+{source: "Marek Marecki", target: "Cream", type: "resolved"},
+{source: "Marek Marecki", target: "Moraj", type: "suit"},
+{source: "Marek Marecki2", target: "Moraj", type: "suit"},
+{source: "Jarek Jarecki", target: "Cream", type: "suit"},
 {source: "Cream", target: "Alan Systems", type: "licensing"},
-
-
-    {source: "Moraj", target: "Alan Systems", type: "licensing"},
-
-
-    {source: "Wordpress", target: "Alan Systems", type: "licensing"},
-
-
 ];
+
+
 
 var nodes = {};
 
 // Compute the distinct nodes from the links.
 links.forEach(function(link) {
-  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
-  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
 });
+
+
+
 
 var width = 960,
     height = 500;
@@ -129,7 +120,7 @@ var force = d3.layout.force()
     .nodes(d3.values(nodes))
     .links(links)
     .size([width, height])
-    .linkDistance(60)
+    .linkDistance(80)
     .charge(-300)
     .on("tick", tick)
     .start();
@@ -190,4 +181,4 @@ function transform(d) {
 }
 
 </script>
--->
+
