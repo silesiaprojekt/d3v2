@@ -6,11 +6,28 @@
   fill: none;
   stroke: #666;
   stroke-width: 1.5px;
+    opacity: 0.5;
 }
 
 #second {
   fill: green;
 }
+
+    .wrapper {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        font-size: 12px;
+        text-align: left;
+        padding: 5px;
+    }
+    .name {
+
+    }
+    .details {
+
+    }
+
 
 .link.second {
   stroke: green;
@@ -18,6 +35,7 @@
 
 .link.addition {
   stroke-dasharray: 0,2 1;
+    opacity: 0.5;
 }
 
 circle {
@@ -26,10 +44,27 @@ circle {
   stroke-width: 1.5px;
 }
 circle:hover {
-    fill: red;
+    fill: white;
+    cursor: pointer;
+
 }
 .tooltip {
-    color: brown;
+    color: white;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+/*  width: 160px;	*/
+  height: auto;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: #627c90;
+  border: 0px;
+  border-radius: 8px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+ /*  pointer-events: none;	This line needs to be removed */
+
 }
 
 text {
@@ -44,57 +79,137 @@ text {
 <script>
 
 // http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
-var links = [
-{source: "Osoba 1", target: "PROJEKT 1", type: "main", leader: "Arkowski1"},
-{source: "Osoba 1", target: "PROJEKT 2", type: "second", leader: "Arkowski1"},
-{source: "Osoba 1", target: "PROJEKT 3", type: "addition", leader: "Arkowski1"},
+var links1 = [
+{source: "Nowakowski", target: "PROJEKT 1", type: "main", leader: "Kowalski"},
+//{source: "Osoba 1", target: "PROJEKT 2", type: "second", leader: "PM2"},
 
-{source: "Osoba 2", target: "PROJEKT 1", type: "main", leader: "Arkowski2"},
-{source: "Osoba 3", target: "PROJEKT 1", type: "main", leader: "Arkowski3"},
+{source: "Osoba 1", target: "PROJEKT 33", type: "addition", leader: "PM3"},
 
-{source: "Osoba 4", target: "PROJEKT 2", type: "main", leader: "Arkowski4"},
-{source: "Osoba 5", target: "PROJEKT 2", type: "main", leader: "Arkowski5"},
+{source: "Osoba 2", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 33", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 31", target: "PROJEKT 1", type: "main", leader: "PM1"},
 
-{source: "Osoba 6", target: "PROJEKT 3", type: "main", leader: "Arkowski6"},
-{source: "Osoba 7", target: "PROJEKT 3", type: "main", leader: "Arkowski7"},
+{source: "Osoba 31", target: "PROJEKT 11", type: "addition", leader: "PM1"},
+
+{source: "Osoba 32", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 35", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 36", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 33", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 30", target: "PROJEKT 1", type: "main", leader: "PM1"},
+
+{source: "Osoba 14", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 15", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 26", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 17", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 17", target: "PROJEKT 11", type: "addition", leader: "PM2"},
+{source: "Osoba 124", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 145", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 136", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 157", target: "PROJEKT 2", type: "main", leader: "PM2"},
+{source: "Osoba 157", target: "PROJEKT 122", type: "addition", leader: "PM2"},
+
+{source: "Osoba 1547", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 1527", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 1517", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 1577", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 154", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 152", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 151", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 1570", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 1570", target: "PROJEKT 43", type: "addition", leader: "PM43"},
+
+{source: "Osoba 178", target: "PROJEKT 43", type: "main", leader: "PM43"},
+{source: "Osoba 68", target: "PROJEKT 43", type: "main", leader: "PM43"},
 ];
 
+
+
+
+
+
+var baza = links1;
 
 var nodes = {};
 
 //var detail = {};
 
 // Compute the distinct nodes from the links.
-links.forEach(function(link) {
-    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
-    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+baza.forEach(function(link) {
+    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source, leader: link.leader});
+    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, leader: link.leader});
 });
 
-//links.forEach(function(detail) {
-//    detail.leader = detail[leader.leader];
-//});
+
+
+function click(d) {
+
+    var g = d3.select(this) // The node
+    var div = d3.select("body").append("div")
+    .text( "Name: " + d.name + ", leader: " + d.leader )
+
+};
+
+
+
+
+
+
+
+
+
+
+
+d3.select("body").append("button")
+                .text("change data1")
+                .on("click",function(){
+                    baza = links1;
+                console.log(baza)
+
+
+
+
+
+                });//end click function
+
+  d3.select("body").append("button")
+                .text("change data2")
+                .on("click",function(){
+                    baza = links2;
+                console.log(baza)
+
+
+
+
+
+                });//end click function
+
+
+
+
+
 
 var width = 1220,
-    height = 500;
+    height = 1000;
 
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
-    .links(links)
+    .links(baza)
     .size([width, height])
-    .linkDistance(200)
-    .charge(-550)
+    .linkDistance(90)
+    .charge(-750)
     .on("tick", tick)
     .start();
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height)
+    //.append("div");
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
     .data(["main", "second", "addition"])
   .enter().append("marker")
-    .attr("id", function(d) { return d }) // Erase .name and arrows will pop out
+    .attr("id", function(d) { return d.name }) // Erase .name and arrows will pop out
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 15)
     .attr("refY", -1.5)
@@ -113,15 +228,37 @@ var path = svg.append("g").selectAll("path")
 
 
 
-
+var div = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")              // apply the 'tooltip' class
+        .style("opacity", 0);
 
 
 var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
   .enter().append("circle")
     .attr("r", 6)
-    .on("click", click)
-    //.on("mouseout", mouseout)
+//    .style("opacity", 0.6)
+    .on("mouseover", function(d) {
+
+        div.transition()
+				.duration(200)
+                .delay(500)
+				.style("opacity", 0);
+			div.transition()
+				.duration(600)
+				.style("opacity", 1);
+			div	.html(
+                '<div class="wrapper"><div class="name">Name: ' + d.name + '</div><div class="details">Project Manager: ' + d.leader + '</div></div>'
+            )
+				.style("left", (d3.event.pageX + 28) + "px")
+				.style("top", (d3.event.pageY - 28) + "px");
+			})
+
+
+
+
+
     .call(force.drag);
 
 var text = svg.append("g").selectAll("text")
@@ -131,6 +268,8 @@ var text = svg.append("g").selectAll("text")
     .attr("y", ".31em")
 
     .text(function(d) { return d.name });
+
+
 
 
 
@@ -154,29 +293,6 @@ function transform(d) {
 
 
 
-function click(d) {
 
-            //var g = d3.select(this) // The node
-            //var div = d3.select("body").append("div")
-
-            //var path2 = svg.append("g").selectAll("text")
-            //.data(force.links())
-            //.enter().append("text")
-            //.text(function(d) { return console.log(d.leader); })
-            var p = d3.select("body").selectAll("p")
-            .data(links)
-            .enter()
-            .append("p")
-            .text(links.target)
-
-
-
-                    //.attr('pointer-events', 'none')
-                    //.attr("class", "tooltip")
-                    //.style("opacity", 1)
-                    //.text( d.name )
-                    //.style("left", (d.x + 50 + "px"))
-                    //.style("top", (d.y +"px"));
-};
 
 </script>
