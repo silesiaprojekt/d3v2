@@ -31,6 +31,7 @@
 
 .link.second {
   stroke: green;
+    opacity: 1;
 }
 
 .link.addition {
@@ -84,17 +85,20 @@ var links1 = [
 //{source: "Osoba 1", target: "PROJEKT 2", type: "second", leader: "PM2"},
 
 {source: "Osoba 1", target: "PROJEKT 33", type: "addition", leader: "PM3"},
+{source: "Osoba 2123", target: "PROJEKT 33", type: "main", leader: "PM3"},
+{source: "Osoba 7123", target: "PROJEKT 33", type: "main", leader: "PM3"},
 
 {source: "Osoba 2", target: "PROJEKT 1", type: "main", leader: "PM1"},
 {source: "Osoba 33", target: "PROJEKT 1", type: "main", leader: "PM1"},
 {source: "Osoba 31", target: "PROJEKT 1", type: "main", leader: "PM1"},
 
 {source: "Osoba 31", target: "PROJEKT 11", type: "addition", leader: "PM1"},
+{source: "Osoba 131", target: "PROJEKT 11", type: "main", leader: "PM1"},
 
 {source: "Osoba 32", target: "PROJEKT 1", type: "main", leader: "PM1"},
 {source: "Osoba 35", target: "PROJEKT 1", type: "main", leader: "PM1"},
 {source: "Osoba 36", target: "PROJEKT 1", type: "main", leader: "PM1"},
-{source: "Osoba 33", target: "PROJEKT 1", type: "main", leader: "PM1"},
+{source: "Osoba 533", target: "PROJEKT 1", type: "main", leader: "PM1"},
 {source: "Osoba 30", target: "PROJEKT 1", type: "main", leader: "PM1"},
 
 {source: "Osoba 14", target: "PROJEKT 2", type: "main", leader: "PM2"},
@@ -108,13 +112,16 @@ var links1 = [
 {source: "Osoba 157", target: "PROJEKT 2", type: "main", leader: "PM2"},
 {source: "Osoba 157", target: "PROJEKT 122", type: "addition", leader: "PM2"},
 
+
+{source: "Osoba", target: "PROJEKT 122", type: "addition", leader2: "PM2"},
+
 {source: "Osoba 1547", target: "PROJEKT 3", type: "main", leader: "PM3"},
 {source: "Osoba 1527", target: "PROJEKT 3", type: "main", leader: "PM3"},
 {source: "Osoba 1517", target: "PROJEKT 3", type: "main", leader: "PM3"},
 {source: "Osoba 1577", target: "PROJEKT 3", type: "main", leader: "PM3"},
 {source: "Osoba 154", target: "PROJEKT 3", type: "main", leader: "PM3"},
 {source: "Osoba 152", target: "PROJEKT 3", type: "main", leader: "PM3"},
-{source: "Osoba 151", target: "PROJEKT 3", type: "main", leader: "PM3"},
+{source: "Osoba 151", target: "PROJEKT 3", type: "second", leader: "PM3"},
 {source: "Osoba 1570", target: "PROJEKT 3", type: "main", leader: "PM3"},
 {source: "Osoba 1570", target: "PROJEKT 43", type: "addition", leader: "PM43"},
 
@@ -249,10 +256,15 @@ var circle = svg.append("g").selectAll("circle")
 				.duration(600)
 				.style("opacity", 1);
 			div	.html(
+
+
+
                 '<div class="wrapper"><div class="name">Name: ' + d.name + '</div><div class="details">Project Manager: ' + d.leader + '</div></div>'
+
+
             )
-				.style("left", (d3.event.pageX + 28) + "px")
-				.style("top", (d3.event.pageY - 28) + "px");
+				.style("left", (d3.event.pageX - 150) + "px")
+				.style("top", (d3.event.pageY - 60) + "px");
 			})
 
 
@@ -294,5 +306,6 @@ function transform(d) {
 
 
 
-
+// http://bl.ocks.org/alansmithy/e984477a741bc56db5a5
+// http://bl.ocks.org/d3noob/c37cb8e630aaef7df30d
 </script>
