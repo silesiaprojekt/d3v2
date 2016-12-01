@@ -2,9 +2,21 @@
 <meta charset="utf-8">
 <style>
 
+html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+/*    border: 1px solid rgba(102, 102, 102, 0.4);*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 .link {
     fill: none;
-    stroke: #666;
+    stroke: #333;
     stroke-width: 1.5px;
     opacity: 0.5;
 }
@@ -17,6 +29,7 @@
     font-size: 12px;
     text-align: left;
     padding: 5px;
+    color: #333;
 }
 .text {
     flex-direction: column;
@@ -60,7 +73,7 @@ div.tooltip {
     height: auto;
     padding: 2px;
     font: 12px sans-serif;
-    background: rgb(76, 76, 76);
+    background: #ccc;
     border: 0px;
     border-radius: 8px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -119,6 +132,9 @@ var links1 = [
 
 ];
 
+
+
+
 var baza = links1;
 
 var nodes = {};
@@ -149,21 +165,27 @@ baza.forEach(function(link) {
 //                console.log(baza)
 //                });//end click function
 
-var width = 1220,
+var width = 1200,
     height = 900;
 
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
     .links(baza)
     .size([width, height])
-    .linkDistance(150)
+    .linkDistance(190)
     .charge(-750)
     .on("tick", tick)
     .start();
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height)
+    .attr("width", "100%")
+    .attr("height", "100%")
+    //.attr("width", "100%")
+    //.attr("height", "100%")
+    //.call(d3.behavior.zoom().on("zoom", function () {
+    //svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+    //}))
+    //.append("g")
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
@@ -194,7 +216,7 @@ var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
     .enter().append("circle")
     .attr("r", 6)
-    .on("mouseover", function(d) {
+    .on("mouseenter", function(d) {
         //console.log(d)
              div.transition()
                 .duration(200)
