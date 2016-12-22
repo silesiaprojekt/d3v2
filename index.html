@@ -13,6 +13,7 @@ body {
     height: 100%;
     margin: 0;
     padding: 0;
+/*    background: black;*/
 }
 .link {
     fill: none;
@@ -95,52 +96,157 @@ text {
 var links1 = [
 
     // PROJECT1
-{source: "Kowalski", target: "PROJEKT1", type: "second", details: "Description of this project", role: "PM"},
+{source: "Projekt 1", target: {target: "Marek"}, type: "second", details: "Description of this project", role: "PM"},
+
     // MEMBERS TO PROJECT1
-{source: "Osoba 1", target: "PROJEKT1", type: "main", role: "Software Developer"},
-{source: "Osoba 2", target: "PROJEKT1", type: "main", role: "Software Developer"},
-{source: "Osoba 3", target: "PROJEKT1", type: "addition", role: "Unit Tester"},
+//{source: "Osoba 1", target: "PROJEKT1", type: "main", role: "Software Developer"},
+//{source: "Osoba 2", target: "PROJEKT1", type: "main", role: "Software Developer"},
+//{source: "Osoba 3", target: "PROJEKT1", type: "addition", role: "Unit Tester"},
 
-    // PROJECT2
-{source: "Nowakowski", target: "PROJEKT2", type: "second", details: "Description of this project", role: "PM"},
-    // MEMBERS TO PROJECT2
-{source: "Osoba 10", target: "PROJEKT2", type: "main", role: "Software Developer"},
-{source: "Osoba 11", target: "PROJEKT2", type: "main", role: "Software Developer"},
-{source: "Osoba 3", target: "PROJEKT2", type: "addition", role: "Unit Tester"},
-
-    // PROJECT3
-{source: "Arturowski", target: "PROJEKT3", type: "second", details: "Description of this project", role: "PM"},
-    // MEMBERS TO PROJECT3
-{source: "Osoba 20", target: "PROJEKT3", type: "main", role: "Software Developer"},
-{source: "Osoba 21", target: "PROJEKT3", type: "main", role: "Software Developer"},
-{source: "Osoba 22", target: "PROJEKT3", type: "main", role: "Software Developer"},
-{source: "Osoba 23", target: "PROJEKT3", type: "main", role: "Software Developer"},
-{source: "Osoba 24", target: "PROJEKT3", type: "main", role: "Software Developer"},
-
-    // PROJECT4
-{source: "Bogdanowski", target: "PROJEKT4", type: "second", details: "Description of this project", role: "PM"},
-    // MEMBERS TO PROJECT4
-{source: "Osoba 30", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 31", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 32", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 33", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 34", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 35", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 36", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 37", target: "PROJEKT4", type: "main", role: "Software Developer"},
-{source: "Osoba 38", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//    // PROJECT2
+//{source: "Nowakowski", target: "PROJEKT2", type: "second", details: "Description of this project", role: "PM"},
+//    // MEMBERS TO PROJECT2
+//{source: "Osoba 10", target: "PROJEKT2", type: "main", role: "Software Developer"},
+//{source: "Osoba 11", target: "PROJEKT2", type: "main", role: "Software Developer"},
+//{source: "Osoba 3", target: "PROJEKT2", type: "addition", role: "Unit Tester"},
+//
+//    // PROJECT3
+//{source: "Arturowski", target: "PROJEKT3", type: "second", details: "Description of this project", role: "PM"},
+//    // MEMBERS TO PROJECT3
+//{source: "Osoba 20", target: "PROJEKT3", type: "main", role: "Software Developer"},
+//{source: "Osoba 21", target: "PROJEKT3", type: "main", role: "Software Developer"},
+//{source: "Osoba 22", target: "PROJEKT3", type: "main", role: "Software Developer"},
+//{source: "Osoba 23", target: "PROJEKT3", type: "main", role: "Software Developer"},
+//{source: "Osoba 24", target: "PROJEKT3", type: "main", role: "Software Developer"},
+//
+//    // PROJECT4
+//{source: "Bogdanowski", target: "PROJEKT4", type: "second", details: "Description of this project", role: "PM"},
+//    // MEMBERS TO PROJECT4
+//{source: "Osoba 30", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 31", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 32", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 33", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 34", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 35", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 36", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 37", target: "PROJEKT4", type: "main", role: "Software Developer"},
+//{source: "Osoba 38", target: "PROJEKT4", type: "main", role: "Software Developer"},
 
 ];
 
 
+var links8 =
+    [
+  {
+    "id": 13,
+    "name": "Leanne Graham",
+    "source": "Bret",
+    "target": "projekt1",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  },
+  {
+    "id": 1,
+    "name": "Ervin Howell",
+    "source": "Antonette",
+    "target": "projekt1",
+    "address": {
+      "street": "Victor Plains",
+      "suite": "Suite 879",
+      "city": "Wisokyburgh",
+      "zipcode": "90566-7771",
+      "geo": {
+        "lat": "-43.9509",
+        "lng": "-34.4618"
+      }
+    },
+    "phone": "010-692-6593 x09125",
+    "website": "anastasia.net",
+    "company": {
+      "name": "Deckow-Crist",
+      "catchPhrase": "Proactive didactic contingency",
+      "bs": "synergize scalable supply-chains"
+    }
+  },
+]
+
+var links18 =
+    [
+  {
+    "id": 1,
+    "name": "Leanne Graham",
+    "target": "Bret",
+    "source": "projekt1",
+    "address": {
+      "street": "Kulas Light",
+      "suite": "Apt. 556",
+      "city": "Gwenborough",
+      "zipcode": "92998-3874",
+      "geo": {
+        "lat": "-37.3159",
+        "lng": "81.1496"
+      }
+    },
+    "phone": "1-770-736-8031 x56442",
+    "website": "hildegard.org",
+    "company": {
+      "name": "Romaguera-Crona",
+      "catchPhrase": "Multi-layered client-server neural-net",
+      "bs": "harness real-time e-markets"
+    }
+  },
+  {
+    "id": 134,
+    "name": "Ervin Howell",
+    "target": "Antonette",
+    "source": "projekt2",
+    "address": {
+      "street": "Victor Plains",
+      "suite": "Suite 879",
+      "city": "Wisokyburgh",
+      "zipcode": "90566-7771",
+      "geo": {
+        "lat": "-43.9509",
+        "lng": "-34.4618"
+      }
+    },
+    "phone": "010-692-6593 x09125",
+    "website": "anastasia.net",
+    "company": {
+      "name": "Deckow-Crist",
+      "catchPhrase": "Proactive didactic contingency",
+      "bs": "synergize scalable supply-chains"
+    }
+  },
+]
 
 
-var baza = links1;
+var baza = links8;
+
+
 
 var nodes = {};
 
 // Compute the distinct nodes from the links.
 baza.forEach(function(link) {
+
+
+
     link.source = nodes[link.source] || (nodes[link.source] = {name: link.source, more: link.role});
     link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, more: link.details});
 });
