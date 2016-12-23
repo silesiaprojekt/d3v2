@@ -1,58 +1,5 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style type="text/css">
-
-	.node {
-    cursor: pointer;
-  }
-
-  .overlay{
-      background-color:#EEE;
-  }
-
-  .node circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px;
-  }
-
-  .node text {
-    font-size:10px;
-    font-family:sans-serif;
-  }
-
-  .link {
-    fill: none;
-    stroke: #ccc;
-    stroke-width: 1.5px;
-  }
-
-  .templink {
-    fill: none;
-    stroke: red;
-    stroke-width: 3px;
-  }
-
-  .ghostCircle.show{
-      display:block;
-  }
-
-  .ghostCircle, .activeDrag .ghostCircle{
-       display: none;
-  }
-
-</style>
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="dndTree.js"></script>
-<body>
-    <div id="tree-container"></div>
-</body>
-</html>
-
-
-<!--<!DOCTYPE html>
-<meta charset="utf-8">
 <style>
 
 .link {
@@ -61,15 +8,15 @@
   stroke-width: 1.5px;
 }
 
-#licensing {
+#second {
   fill: green;
 }
 
-.link.licensing {
+.link.second {
   stroke: green;
 }
 
-.link.resolved {
+.link.addition {
   stroke-dasharray: 0,2 1;
 }
 
@@ -77,6 +24,12 @@ circle {
   fill: #ccc;
   stroke: #333;
   stroke-width: 1.5px;
+}
+circle:hover {
+    fill: red;
+}
+.tooltip {
+    color: brown;
 }
 
 text {
@@ -92,45 +45,44 @@ text {
 
 // http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
 var links = [
-  {source: "Marek Marecki", target: "Cream", type: "resolved"},
-    {source: "Marek Marecki", target: "Moraj", type: "suit"},
+{source: "Osoba 1", target: "PROJEKT 1", type: "main", leader: "Arkowski1"},
+{source: "Osoba 1", target: "PROJEKT 2", type: "second", leader: "Arkowski1"},
+{source: "Osoba 1", target: "PROJEKT 3", type: "addition", leader: "Arkowski1"},
 
-    {source: "Marek Marecki2", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki3", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki4", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki5", target: "Moraj", type: "suit"},
-    {source: "Marek Marecki6", target: "Moraj", type: "suit"},
+{source: "Osoba 2", target: "PROJEKT 1", type: "main", leader: "Arkowski2"},
+{source: "Osoba 3", target: "PROJEKT 1", type: "main", leader: "Arkowski3"},
 
+{source: "Osoba 4", target: "PROJEKT 2", type: "main", leader: "Arkowski4"},
+{source: "Osoba 5", target: "PROJEKT 2", type: "main", leader: "Arkowski5"},
 
-  {source: "Jarek Jarecki", target: "Cream", type: "suit"},
-{source: "Cream", target: "Alan Systems", type: "licensing"},
-
-
-    {source: "Moraj", target: "Alan Systems", type: "licensing"},
-
-
-    {source: "Wordpress", target: "Alan Systems", type: "licensing"},
-
-
+{source: "Osoba 6", target: "PROJEKT 3", type: "main", leader: "Arkowski6"},
+{source: "Osoba 7", target: "PROJEKT 3", type: "main", leader: "Arkowski7"},
 ];
+
 
 var nodes = {};
 
+//var detail = {};
+
 // Compute the distinct nodes from the links.
 links.forEach(function(link) {
-  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
-  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
 });
 
-var width = 960,
+//links.forEach(function(detail) {
+//    detail.leader = detail[leader.leader];
+//});
+
+var width = 1220,
     height = 500;
 
 var force = d3.layout.force()
     .nodes(d3.values(nodes))
     .links(links)
     .size([width, height])
-    .linkDistance(60)
-    .charge(-300)
+    .linkDistance(200)
+    .charge(-550)
     .on("tick", tick)
     .start();
 
@@ -140,9 +92,9 @@ var svg = d3.select("body").append("svg")
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
-    .data(["suit", "licensing", "resolved"])
+    .data(["main", "second", "addition"])
   .enter().append("marker")
-    .attr("id", function(d) { return d; })
+    .attr("id", function(d) { return d }) // Erase .name and arrows will pop out
     .attr("viewBox", "0 -5 10 10")
     .attr("refX", 15)
     .attr("refY", -1.5)
@@ -152,16 +104,24 @@ svg.append("defs").selectAll("marker")
   .append("path")
     .attr("d", "M0,-5L10,0L0,5");
 
+
 var path = svg.append("g").selectAll("path")
     .data(force.links())
   .enter().append("path")
     .attr("class", function(d) { return "link " + d.type; })
     .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
 
+
+
+
+
+
 var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
   .enter().append("circle")
     .attr("r", 6)
+    .on("click", click)
+    //.on("mouseout", mouseout)
     .call(force.drag);
 
 var text = svg.append("g").selectAll("text")
@@ -169,7 +129,10 @@ var text = svg.append("g").selectAll("text")
   .enter().append("text")
     .attr("x", 8)
     .attr("y", ".31em")
-    .text(function(d) { return d.name; });
+
+    .text(function(d) { return d.name });
+
+
 
 // Use elliptical arc path segments to doubly-encode directionality.
 function tick() {
@@ -189,5 +152,31 @@ function transform(d) {
   return "translate(" + d.x + "," + d.y + ")";
 }
 
+
+
+function click(d) {
+
+            //var g = d3.select(this) // The node
+            //var div = d3.select("body").append("div")
+
+            //var path2 = svg.append("g").selectAll("text")
+            //.data(force.links())
+            //.enter().append("text")
+            //.text(function(d) { return console.log(d.leader); })
+            var p = d3.select("body").selectAll("p")
+            .data(links)
+            .enter()
+            .append("p")
+            .text(links.target)
+
+
+
+                    //.attr('pointer-events', 'none')
+                    //.attr("class", "tooltip")
+                    //.style("opacity", 1)
+                    //.text( d.name )
+                    //.style("left", (d.x + 50 + "px"))
+                    //.style("top", (d.y +"px"));
+};
+
 </script>
--->
