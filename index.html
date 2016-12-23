@@ -1,381 +1,282 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
-html {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-/*    border: 1px solid rgba(102, 102, 102, 0.4);*/
-    height: 100%;
-    margin: 0;
-    padding: 0;
-/*    background: black;*/
-}
-.link {
-    fill: none;
-    stroke: #333;
-    stroke-width: 1.5px;
-    opacity: 0.5;
-}
-#second {
-  fill: green;
-}
-.wrapper {
-    display: flex;
-    height: 100%;
-    font-size: 12px;
-    text-align: left;
-    padding: 5px;
-    color: #333;
-}
-.text {
-    flex-direction: column;
-}
-img {
-    width: 50px;
-    height: auto;
-    border-radius: 5px;
-}
-.name {
-    padding: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
+    html {
+        height: 100%;
+        margin: 0;
+        padding: 0;
     }
-.details {
-    padding: 5px;
-}
-.link.second {
-    stroke: green;
-    opacity: 1;
-}
-.link.addition {
-    stroke-dasharray: 0,2 1;
-    opacity: 0.5;
-}
-circle {
-    fill: #ccc;
-    stroke: #333;
-    stroke-width: 1.5px;
-}
-circle:hover {
-    fill: white;
-    cursor: pointer;
-}
-.tooltip {
-    color: white;
-}
-div.tooltip {
-    position: absolute;
-    text-align: center;
-    height: auto;
-    padding: 2px;
-    font: 12px sans-serif;
-    background: #ccc;
-    border: 0px;
-    border-radius: 8px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-text {
-    font: 10px sans-serif;
-    pointer-events: none;
-    text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
-}
 
+    body {
+        /*    border: 1px solid rgba(102, 102, 102, 0.4);*/
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        /*    background: black;*/
+    }
+
+    .link {
+        fill: none;
+        stroke: #333;
+        stroke-width: 1.5px;
+        opacity: 0.5;
+    }
+
+    #second {
+        fill: green;
+    }
+
+    .wrapper {
+        display: flex;
+        height: 100%;
+        font-size: 12px;
+        text-align: left;
+        padding: 5px;
+        color: #333;
+    }
+
+    .text {
+        flex-direction: column;
+    }
+
+    img {
+        width: 50px;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .name {
+        padding: 5px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .details {
+        padding: 5px;
+    }
+
+    .link.second {
+        stroke: green;
+        opacity: 1;
+    }
+
+    .link.addition {
+        stroke-dasharray: 0, 2 1;
+        opacity: 0.5;
+    }
+
+    circle {
+        fill: #ccc;
+        stroke: #333;
+        stroke-width: 1.5px;
+    }
+
+    circle:hover {
+        fill: white;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        color: white;
+    }
+
+    div.tooltip {
+        position: absolute;
+        text-align: center;
+        height: auto;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: #ccc;
+        border: 0px;
+        border-radius: 8px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    text {
+        font: 10px sans-serif;
+        pointer-events: none;
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    }
 </style>
 
 <body>
-<script src="//d3js.org/d3.v3.min.js"></script>
+    <div id="option">
+        <input name="updateButton1" type="button" value="Update" onclick="getData1()" /> </div>
+    <input name="updateButton2" type="button" value="Update" onclick="getData2()" /> </div>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script>
+        function getData1() {
+            var baza = [
+                    {
+                        "id": 1
+                        , "name": "Cream"
+                        , "project": "Cream"
+  }
+                    , {
+                        "id": 2
+                        , "name": "Tele"
+                        , "project": "Tele"
+  }
+                    , {
+                        "id": 3
+                        , "name": "Jarek"
+                        , "project": "Cream"
+  }
+                , {
+                        "id": 4
+                        , "name": "Jarek"
+                        , "project": "Tele"
+  }
+                , {
+                        "id": 5
+                        , "name": "Leszek"
+                        , "project": "Tele"
+  }
+                , {
+                        "id": 6
+                        , "name": "Marek"
+                        , "project": "Tele"
+  }
+                ]
+                //console.log(data[0].title);
+            var nodes = {};
+            // Compute the distinct nodes from the links.
+            baza.forEach(function (link, i) {
+                console.log(link.id)
+                link.source = nodes[link.name] || (nodes[link.name] = {
+                    name: link.name
+                    , more: link.id
+                });
+                link.target = nodes[link.project] || (nodes[link.project] = {
+                    name: link.project
+                    , more: link.id
+                });
+                //console.log(nodes)
+            });
+            var width = 1200
+                , height = 900;
+            var force = d3.layout.force().nodes(d3.values(nodes)).links(baza).size([width, height]).linkDistance(190).charge(-750).on("tick", tick).start();
+            var svg = d3.select("body").append("svg").attr("width", "100%").attr("height", "100%")
+                //.attr("width", "100%")
+                //.attr("height", "100%")
+                //.call(d3.behavior.zoom().on("zoom", function () {
+                //svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                //}))
+                //.append("g")
+                // Per-type markers, as they don't inherit styles.
+            svg.append("defs").selectAll("marker").data(["main", "second", "addition"]).enter().append("marker").attr("id", function (d) {
+                    return d.name
+                }) // Erase .name and arrows will pop out
+                .attr("viewBox", "0 -5 10 10").attr("refX", 15).attr("refY", -1.5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,-5L10,0L0,5");
+            var path = svg.append("g").selectAll("path").data(force.links()).enter().append("path").attr("class", function (d) {
+                return "link " + d.type;
+            }).attr("marker-end", function (d) {
+                return "url(#" + d.type + ")";
+            });
+            var div = d3.select("body").append("div").attr("class", "tooltip") // apply the 'tooltip' class
+                .style("opacity", 0);
+            var circle = svg.append("g").selectAll("circle").data(force.nodes()).enter().append("circle").attr("r", 6).on("mouseenter", function (d) {
+                //console.log(d)
+                div.transition().duration(200).delay(300).style("opacity", 0.5);
+                div.transition().duration(200).style("opacity", 1);
+                div.html('<div class="wrapper"><div class="foto"><img src="foto.jpg"></div><div class="text"><div class="name">' + d.name + '</div><div class="details">' + d.more + '</div></div></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
+            }).on("mouseout", function (d) {
+                div.transition().duration(1).delay(0).style("opacity", 0);
+                div.transition().duration(1).style("opacity", 0);
+                div.html('<div class="empty"></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
+            }).call(force.drag);
+            var text = svg.append("g").selectAll("text").data(force.nodes()).enter().append("text").attr("x", 8).attr("y", ".31em").text(function (d) {
+                return d.name + ', ' + d.more
+            });
+            // Use elliptical arc path segments to doubly-encode directionality.
+            function tick() {
+                path.attr("d", linkArc);
+                circle.attr("transform", transform);
+                text.attr("transform", transform);
+            }
 
-<script>
+            function linkArc(d) {
+                var dx = d.target.x - d.source.x
+                    , dy = d.target.y - d.source.y
+                    , dr = Math.sqrt(dx * dx + dy * dy);
+                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+            }
 
-// http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
-var links1 = [
+            function transform(d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            }
+        }
 
-    // PROJECT1
-{source: "Projekt 1", target: {target: "Marek"}, type: "second", details: "Description of this project", role: "PM"},
+        function getData2() {
+            d3.json('https://jsonplaceholder.typicode.com/todos', function (error, data) {
+                var baza = data;
+                //console.log(data[0].title);
+                var nodes = {};
+                // Compute the distinct nodes from the links.
+                baza.forEach(function (link, i) {
+                    console.log(link.id)
+                    link.source = nodes[link.id] || (nodes[link.id] = {
+                        name: link.id
+                        , more: link.title
+                    });
+                    link.target = nodes[link.userId] || (nodes[link.userId] = {
+                        name: link.userId
+                        , more: link.title
+                    });
+                    //console.log(nodes)
+                });
+                var width = 1200
+                    , height = 900;
+                var force = d3.layout.force().nodes(d3.values(nodes)).links(baza).size([width, height]).linkDistance(190).charge(-750).on("tick", tick).start();
+                var svg = d3.select("body").append("svg").attr("width", "100%").attr("height", "100%")
+                    //.attr("width", "100%")
+                    //.attr("height", "100%")
+                    //.call(d3.behavior.zoom().on("zoom", function () {
+                    //svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                    //}))
+                    //.append("g")
+                    // Per-type markers, as they don't inherit styles.
+                svg.append("defs").selectAll("marker").data(["main", "second", "addition"]).enter().append("marker").attr("id", function (d) {
+                        return d.name
+                    }) // Erase .name and arrows will pop out
+                    .attr("viewBox", "0 -5 10 10").attr("refX", 15).attr("refY", -1.5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,-5L10,0L0,5");
+                var path = svg.append("g").selectAll("path").data(force.links()).enter().append("path").attr("class", function (d) {
+                    return "link " + d.type;
+                }).attr("marker-end", function (d) {
+                    return "url(#" + d.type + ")";
+                });
+                var div = d3.select("body").append("div").attr("class", "tooltip") // apply the 'tooltip' class
+                    .style("opacity", 0);
+                var circle = svg.append("g").selectAll("circle").data(force.nodes()).enter().append("circle").attr("r", 6).on("mouseenter", function (d) {
+                    //console.log(d)
+                    div.transition().duration(200).delay(300).style("opacity", 0.5);
+                    div.transition().duration(200).style("opacity", 1);
+                    div.html('<div class="wrapper"><div class="foto"><img src="foto.jpg"></div><div class="text"><div class="name">' + d.name + '</div><div class="details">' + d.more + '</div></div></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
+                }).on("mouseout", function (d) {
+                    div.transition().duration(1).delay(0).style("opacity", 0);
+                    div.transition().duration(1).style("opacity", 0);
+                    div.html('<div class="empty"></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
+                }).call(force.drag);
+                var text = svg.append("g").selectAll("text").data(force.nodes()).enter().append("text").attr("x", 8).attr("y", ".31em").text(function (d) {
+                    return d.name + ', ' + d.more
+                });
+                // Use elliptical arc path segments to doubly-encode directionality.
+                function tick() {
+                    path.attr("d", linkArc);
+                    circle.attr("transform", transform);
+                    text.attr("transform", transform);
+                }
 
-    // MEMBERS TO PROJECT1
-//{source: "Osoba 1", target: "PROJEKT1", type: "main", role: "Software Developer"},
-//{source: "Osoba 2", target: "PROJEKT1", type: "main", role: "Software Developer"},
-//{source: "Osoba 3", target: "PROJEKT1", type: "addition", role: "Unit Tester"},
+                function linkArc(d) {
+                    var dx = d.target.x - d.source.x
+                        , dy = d.target.y - d.source.y
+                        , dr = Math.sqrt(dx * dx + dy * dy);
+                    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+                }
 
-//    // PROJECT2
-//{source: "Nowakowski", target: "PROJEKT2", type: "second", details: "Description of this project", role: "PM"},
-//    // MEMBERS TO PROJECT2
-//{source: "Osoba 10", target: "PROJEKT2", type: "main", role: "Software Developer"},
-//{source: "Osoba 11", target: "PROJEKT2", type: "main", role: "Software Developer"},
-//{source: "Osoba 3", target: "PROJEKT2", type: "addition", role: "Unit Tester"},
-//
-//    // PROJECT3
-//{source: "Arturowski", target: "PROJEKT3", type: "second", details: "Description of this project", role: "PM"},
-//    // MEMBERS TO PROJECT3
-//{source: "Osoba 20", target: "PROJEKT3", type: "main", role: "Software Developer"},
-//{source: "Osoba 21", target: "PROJEKT3", type: "main", role: "Software Developer"},
-//{source: "Osoba 22", target: "PROJEKT3", type: "main", role: "Software Developer"},
-//{source: "Osoba 23", target: "PROJEKT3", type: "main", role: "Software Developer"},
-//{source: "Osoba 24", target: "PROJEKT3", type: "main", role: "Software Developer"},
-//
-//    // PROJECT4
-//{source: "Bogdanowski", target: "PROJEKT4", type: "second", details: "Description of this project", role: "PM"},
-//    // MEMBERS TO PROJECT4
-//{source: "Osoba 30", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 31", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 32", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 33", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 34", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 35", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 36", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 37", target: "PROJEKT4", type: "main", role: "Software Developer"},
-//{source: "Osoba 38", target: "PROJEKT4", type: "main", role: "Software Developer"},
-
-];
-
-
-var links8 =
-    [
-  {
-    "id": 13,
-    "name": "Leanne Graham",
-    "source": "Bret",
-    "target": "projekt1",
-    "address": {
-      "street": "Kulas Light",
-      "suite": "Apt. 556",
-      "city": "Gwenborough",
-      "zipcode": "92998-3874",
-      "geo": {
-        "lat": "-37.3159",
-        "lng": "81.1496"
-      }
-    },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-      "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
-      "bs": "harness real-time e-markets"
-    }
-  },
-  {
-    "id": 1,
-    "name": "Ervin Howell",
-    "source": "Antonette",
-    "target": "projekt1",
-    "address": {
-      "street": "Victor Plains",
-      "suite": "Suite 879",
-      "city": "Wisokyburgh",
-      "zipcode": "90566-7771",
-      "geo": {
-        "lat": "-43.9509",
-        "lng": "-34.4618"
-      }
-    },
-    "phone": "010-692-6593 x09125",
-    "website": "anastasia.net",
-    "company": {
-      "name": "Deckow-Crist",
-      "catchPhrase": "Proactive didactic contingency",
-      "bs": "synergize scalable supply-chains"
-    }
-  },
-]
-
-var links18 =
-    [
-  {
-    "id": 1,
-    "name": "Leanne Graham",
-    "target": "Bret",
-    "source": "projekt1",
-    "address": {
-      "street": "Kulas Light",
-      "suite": "Apt. 556",
-      "city": "Gwenborough",
-      "zipcode": "92998-3874",
-      "geo": {
-        "lat": "-37.3159",
-        "lng": "81.1496"
-      }
-    },
-    "phone": "1-770-736-8031 x56442",
-    "website": "hildegard.org",
-    "company": {
-      "name": "Romaguera-Crona",
-      "catchPhrase": "Multi-layered client-server neural-net",
-      "bs": "harness real-time e-markets"
-    }
-  },
-  {
-    "id": 134,
-    "name": "Ervin Howell",
-    "target": "Antonette",
-    "source": "projekt2",
-    "address": {
-      "street": "Victor Plains",
-      "suite": "Suite 879",
-      "city": "Wisokyburgh",
-      "zipcode": "90566-7771",
-      "geo": {
-        "lat": "-43.9509",
-        "lng": "-34.4618"
-      }
-    },
-    "phone": "010-692-6593 x09125",
-    "website": "anastasia.net",
-    "company": {
-      "name": "Deckow-Crist",
-      "catchPhrase": "Proactive didactic contingency",
-      "bs": "synergize scalable supply-chains"
-    }
-  },
-]
-
-
-var baza = links8;
-
-
-
-var nodes = {};
-
-// Compute the distinct nodes from the links.
-baza.forEach(function(link) {
-
-
-
-    link.source = nodes[link.source] || (nodes[link.source] = {name: link.source, more: link.role});
-    link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, more: link.details});
-});
-
-//function click(d) {
-//    var g = d3.select(this) // The node
-//    var div = d3.select("body").append("div")
-//    .text( "Name: " + d.name + ", leader: " + d.leader )
-//};
-
-//d3.select("body").append("button")
-//                .text("change data1")
-//                .on("click",function(){
-//                    baza = links1;
-//                console.log(baza)
-//                });//end click function
-//
-//  d3.select("body").append("button")
-//                .text("change data2")
-//                .on("click",function(){
-//                    baza = links2;
-//                console.log(baza)
-//                });//end click function
-
-var width = 1200,
-    height = 900;
-
-var force = d3.layout.force()
-    .nodes(d3.values(nodes))
-    .links(baza)
-    .size([width, height])
-    .linkDistance(190)
-    .charge(-750)
-    .on("tick", tick)
-    .start();
-
-var svg = d3.select("body").append("svg")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    //.attr("width", "100%")
-    //.attr("height", "100%")
-    //.call(d3.behavior.zoom().on("zoom", function () {
-    //svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-    //}))
-    //.append("g")
-
-// Per-type markers, as they don't inherit styles.
-svg.append("defs").selectAll("marker")
-    .data(["main", "second", "addition"])
-    .enter().append("marker")
-    .attr("id", function(d) { return d.name }) // Erase .name and arrows will pop out
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 15)
-    .attr("refY", -1.5)
-    .attr("markerWidth", 6)
-    .attr("markerHeight", 6)
-    .attr("orient", "auto")
-    .append("path")
-    .attr("d", "M0,-5L10,0L0,5");
-
-var path = svg.append("g").selectAll("path")
-    .data(force.links())
-    .enter().append("path")
-    .attr("class", function(d) { return "link " + d.type; })
-    .attr("marker-end", function(d) { return "url(#" + d.type + ")"; });
-
-var div = d3.select("body")
-    .append("div")
-    .attr("class", "tooltip") // apply the 'tooltip' class
-    .style("opacity", 0);
-
-var circle = svg.append("g").selectAll("circle")
-    .data(force.nodes())
-    .enter().append("circle")
-    .attr("r", 6)
-    .on("mouseenter", function(d) {
-        //console.log(d)
-             div.transition()
-                .duration(200)
-                .delay(300)
-				.style("opacity", 0.5);
-			 div.transition()
-				.duration(200)
-				.style("opacity", 1);
-			 div.html(
-                '<div class="wrapper"><div class="foto"><img src="foto.jpg"></div><div class="text"><div class="name">' + d.name + '</div><div class="details">' + d.more + '</div></div></div>'
-                )
-				.style("left", (d3.event.pageX - 150) + "px")
-				.style("top", (d3.event.pageY - 100) + "px");
-                })
-    .on("mouseout", function(d) {
-             div.transition()
-                .duration(1)
-                .delay(0)
-				.style("opacity", 0);
-			 div.transition()
-				.duration(1)
-				.style("opacity", 0);
-			 div.html(
-                '<div class="empty"></div>'
-                )
-				.style("left", (d3.event.pageX - 150) + "px")
-				.style("top", (d3.event.pageY - 100) + "px");
-                })
-    .call(force.drag);
-
-var text = svg.append("g").selectAll("text")
-    .data(force.nodes())
-    .enter().append("text")
-    .attr("x", 8)
-    .attr("y", ".31em")
-    .text(function(d) { return d.name + ', ' + d.more });
-
-// Use elliptical arc path segments to doubly-encode directionality.
-function tick() {
-    path.attr("d", linkArc);
-    circle.attr("transform", transform);
-    text.attr("transform", transform);
-}
-
-function linkArc(d) {
-    var dx = d.target.x - d.source.x,
-        dy = d.target.y - d.source.y,
-        dr = Math.sqrt(dx * dx + dy * dy);
-    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-}
-
-function transform(d) {
-    return "translate(" + d.x + "," + d.y + ")";
-}
-
-</script>
+                function transform(d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                }
+            });
+        }
+    </script>
