@@ -8,11 +8,9 @@
     }
 
     body {
-        /*    border: 1px solid rgba(102, 102, 102, 0.4);*/
         height: 100%;
         margin: 0;
         padding: 0;
-        /*    background: black;*/
     }
 
     .link {
@@ -101,42 +99,42 @@
 
 <body>
     <div id="option">
-        <input name="updateButton1" type="button" value="Update" onclick="getData1()" /> </div>
-    <input name="updateButton2" type="button" value="Update" onclick="getData2()" /> </div>
+        <input name="updateButton1" type="button" value="Update data 1" onclick="getData1()" /> </div>
+    <input name="updateButton2" type="button" value="Update data 2" onclick="getData2()" /> </div>
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script>
         function getData1() {
             var baza = [
+
                     {
                         "id": 1
-                        , "name": "Cream"
-                        , "project": "Cream"
+                        , "name": "Osoba numer 1"
+                        , "project": {
+                            "first": "Główny projekt 1"
+                            , "second": "Drugi projekt 1"
+                            , "third": "Trzeci projekt 1"
+                        }
+                        , type: "main"
   }
-                    , {
+                , {
                         "id": 2
-                        , "name": "Tele"
-                        , "project": "Tele"
-  }
-                    , {
+                        , "name": "Osoba numer 2"
+                        , "project": {
+                            "first": "Główny projekt 2"
+                            , "second": "Drugi projekt 2"
+                        }
+                        , type: "main"
+  }, {
                         "id": 3
-                        , "name": "Jarek"
-                        , "project": "Cream"
+                        , "name": "Osoba numer 3"
+                        , "project": {
+                            "first": "Główny projekt 3"
+                            , "second": "Drugi projekt 3"
+                        }
+                        , type: "main"
   }
-                , {
-                        "id": 4
-                        , "name": "Jarek"
-                        , "project": "Tele"
-  }
-                , {
-                        "id": 5
-                        , "name": "Leszek"
-                        , "project": "Tele"
-  }
-                , {
-                        "id": 6
-                        , "name": "Marek"
-                        , "project": "Tele"
-  }
+
+
                 ]
                 //console.log(data[0].title);
             var nodes = {};
@@ -147,8 +145,124 @@
                     name: link.name
                     , more: link.id
                 });
-                link.target = nodes[link.project] || (nodes[link.project] = {
+                link.target = nodes[link.project.first] || (nodes[link.project.first] = {
+                    name: link.project.first
+                    , more: link.id
+                });
+                link.target2 = nodes[link.project.second] || (nodes[link.project.second] = {
+                    name: link.project.second
+                    , more: link.id
+                });
+                link.target3 = nodes[link.project.third] || (nodes[link.project.third] = {
+                    name: link.project.third
+                    , more: link.id
+                });
+                //console.log(nodes)
+            });
+            var width = 1200
+                , height = 900;
+            var force = d3.layout.force().nodes(d3.values(nodes)).links(baza).size([width, height]).linkDistance(190).charge(-750).on("tick", tick).start();
+            var svg = d3.select("body").append("svg").attr("width", "100%").attr("height", "100%")
+                //.attr("width", "100%")
+                //.attr("height", "100%")
+                //.call(d3.behavior.zoom().on("zoom", function () {
+                //svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+                //}))
+                //.append("g")
+                // Per-type markers, as they don't inherit styles.
+            svg.append("defs").selectAll("marker").data(["main", "second", "addition"]).enter().append("marker").attr("id", function (d) {
+                    return d.name
+                }) // Erase .name and arrows will pop out
+                .attr("viewBox", "0 -5 10 10").attr("refX", 15).attr("refY", -1.5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,-5L10,0L0,5");
+            var path = svg.append("g").selectAll("path").data(force.links()).enter().append("path").attr("class", function (d) {
+                return "link " + d.type;
+            }).attr("marker-end", function (d) {
+                return "url(#" + d.type + ")";
+            });
+            var div = d3.select("body").append("div").attr("class", "tooltip") // apply the 'tooltip' class
+                .style("opacity", 0);
+            var circle = svg.append("g").selectAll("circle").data(force.nodes()).enter().append("circle").attr("r", 6).on("mouseenter", function (d) {
+                //console.log(d)
+                div.transition().duration(200).delay(300).style("opacity", 0.5);
+                div.transition().duration(200).style("opacity", 1);
+                div.html('<div class="wrapper"><div class="foto"><img src="foto.jpg"></div><div class="text"><div class="name">' + d.name + '</div><div class="details">' + d.more + '</div></div></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
+            }).on("mouseout", function (d) {
+                div.transition().duration(1).delay(0).style("opacity", 0);
+                div.transition().duration(1).style("opacity", 0);
+                div.html('<div class="empty"></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
+            }).call(force.drag);
+            var text = svg.append("g").selectAll("text").data(force.nodes()).enter().append("text").attr("x", 8).attr("y", ".31em").text(function (d) {
+                return d.name + ', ' + d.more
+            });
+            // Use elliptical arc path segments to doubly-encode directionality.
+            function tick() {
+                path.attr("d", linkArc);
+                circle.attr("transform", transform);
+                text.attr("transform", transform);
+            }
+
+            function linkArc(d) {
+                var dx = d.target.x - d.source.x
+                    , dy = d.target.y - d.source.y
+                    , dr = Math.sqrt(dx * dx + dy * dy);
+                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+            }
+
+            function tick2() {
+                path.attr("d", linkArc2);
+                circle.attr("transform", transform);
+                text.attr("transform", transform);
+            }
+
+            function linkArc2(d) {
+                var dx = d.target2.x - d.source.x
+                    , dy = d.target2.y - d.source.y
+                    , dr = Math.sqrt(dx * dx + dy * dy);
+                return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target2.x + "," + d.target2.y;
+            }
+
+            function transform(d) {
+                return "translate(" + d.x + "," + d.y + ")";
+            }
+        }
+
+        function getData2() {
+            var baza = [
+                    {
+                        "id": 1
+                        , "name": "Arek"
+                        , "project": "Cream"
+  }
+                    , {
+                        "id": 2
+                        , "name": "Jarek"
+                        , "project": "Cream"
+  }
+                    , {
+                        "id": 3
+                        , "name": "Marek"
+                        , "project": "Tele"
+                        , type: "addition"
+  }
+                , {
+                        "id": 4
+                        , "name": "Ola"
+                        , "project": "Tele"
+                        , type: "main"
+  }
+
+                ]
+                //console.log(data[0].title);
+            var nodes = {};
+            // Compute the distinct nodes from the links.
+            baza.forEach(function (link, i) {
+                console.log(link.id)
+                link.source = nodes[link.project] || (nodes[link.project] = {
                     name: link.project
+                    , more: link.id
+                });
+                link.target = nodes[link.name] || (nodes[link.name] = {
+                    name: link.name
                     , more: link.id
                 });
                 //console.log(nodes)
@@ -205,78 +319,5 @@
             function transform(d) {
                 return "translate(" + d.x + "," + d.y + ")";
             }
-        }
-
-        function getData2() {
-            d3.json('https://jsonplaceholder.typicode.com/todos', function (error, data) {
-                var baza = data;
-                //console.log(data[0].title);
-                var nodes = {};
-                // Compute the distinct nodes from the links.
-                baza.forEach(function (link, i) {
-                    console.log(link.id)
-                    link.source = nodes[link.id] || (nodes[link.id] = {
-                        name: link.id
-                        , more: link.title
-                    });
-                    link.target = nodes[link.userId] || (nodes[link.userId] = {
-                        name: link.userId
-                        , more: link.title
-                    });
-                    //console.log(nodes)
-                });
-                var width = 1200
-                    , height = 900;
-                var force = d3.layout.force().nodes(d3.values(nodes)).links(baza).size([width, height]).linkDistance(190).charge(-750).on("tick", tick).start();
-                var svg = d3.select("body").append("svg").attr("width", "100%").attr("height", "100%")
-                    //.attr("width", "100%")
-                    //.attr("height", "100%")
-                    //.call(d3.behavior.zoom().on("zoom", function () {
-                    //svg.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
-                    //}))
-                    //.append("g")
-                    // Per-type markers, as they don't inherit styles.
-                svg.append("defs").selectAll("marker").data(["main", "second", "addition"]).enter().append("marker").attr("id", function (d) {
-                        return d.name
-                    }) // Erase .name and arrows will pop out
-                    .attr("viewBox", "0 -5 10 10").attr("refX", 15).attr("refY", -1.5).attr("markerWidth", 6).attr("markerHeight", 6).attr("orient", "auto").append("path").attr("d", "M0,-5L10,0L0,5");
-                var path = svg.append("g").selectAll("path").data(force.links()).enter().append("path").attr("class", function (d) {
-                    return "link " + d.type;
-                }).attr("marker-end", function (d) {
-                    return "url(#" + d.type + ")";
-                });
-                var div = d3.select("body").append("div").attr("class", "tooltip") // apply the 'tooltip' class
-                    .style("opacity", 0);
-                var circle = svg.append("g").selectAll("circle").data(force.nodes()).enter().append("circle").attr("r", 6).on("mouseenter", function (d) {
-                    //console.log(d)
-                    div.transition().duration(200).delay(300).style("opacity", 0.5);
-                    div.transition().duration(200).style("opacity", 1);
-                    div.html('<div class="wrapper"><div class="foto"><img src="foto.jpg"></div><div class="text"><div class="name">' + d.name + '</div><div class="details">' + d.more + '</div></div></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
-                }).on("mouseout", function (d) {
-                    div.transition().duration(1).delay(0).style("opacity", 0);
-                    div.transition().duration(1).style("opacity", 0);
-                    div.html('<div class="empty"></div>').style("left", (d3.event.pageX - 150) + "px").style("top", (d3.event.pageY - 100) + "px");
-                }).call(force.drag);
-                var text = svg.append("g").selectAll("text").data(force.nodes()).enter().append("text").attr("x", 8).attr("y", ".31em").text(function (d) {
-                    return d.name + ', ' + d.more
-                });
-                // Use elliptical arc path segments to doubly-encode directionality.
-                function tick() {
-                    path.attr("d", linkArc);
-                    circle.attr("transform", transform);
-                    text.attr("transform", transform);
-                }
-
-                function linkArc(d) {
-                    var dx = d.target.x - d.source.x
-                        , dy = d.target.y - d.source.y
-                        , dr = Math.sqrt(dx * dx + dy * dy);
-                    return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
-                }
-
-                function transform(d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                }
-            });
         }
     </script>
