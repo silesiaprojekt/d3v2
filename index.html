@@ -108,31 +108,20 @@
 
                     {
                         "id": 1
-                        , "name": "Osoba numer 1"
-                        , "project": {
-                            "first": "Główny projekt 1"
-                            , "second": "Drugi projekt 1"
-                            , "third": "Trzeci projekt 1"
-                        }
+                        , "name": "Jarosław"
+                        , "project": "Cream"
                         , type: "main"
-  }
-                , {
+                    }, {
                         "id": 2
-                        , "name": "Osoba numer 2"
-                        , "project": {
-                            "first": "Główny projekt 2"
-                            , "second": "Drugi projekt 2"
-                        }
+                        , "name": "Bolesław"
+                        , "project": "Cream"
                         , type: "main"
-  }, {
+                    }, {
                         "id": 3
-                        , "name": "Osoba numer 3"
-                        , "project": {
-                            "first": "Główny projekt 3"
-                            , "second": "Drugi projekt 3"
-                        }
+                        , "name": "Olka"
+                        , "project": "Cream"
                         , type: "main"
-  }
+                    }
 
 
                 ]
@@ -146,15 +135,7 @@
                     , more: link.id
                 });
                 link.target = nodes[link.project.first] || (nodes[link.project.first] = {
-                    name: link.project.first
-                    , more: link.id
-                });
-                link.target2 = nodes[link.project.second] || (nodes[link.project.second] = {
-                    name: link.project.second
-                    , more: link.id
-                });
-                link.target3 = nodes[link.project.third] || (nodes[link.project.third] = {
-                    name: link.project.third
+                    name: link.project
                     , more: link.id
                 });
                 //console.log(nodes)
@@ -230,7 +211,7 @@
             var baza = [
                     {
                         "id": 1
-                        , "name": "Arek"
+                        , "name": "Micha Richter"
                         , "project": "Cream"
   }
                     , {
